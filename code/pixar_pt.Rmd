@@ -1,0 +1,87 @@
+---
+title: "Pixar: Uma história de dados"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## Pixar e as lembranças afetivas
+
+Então, você finalmente completou 18 anos. Você está se preparando para ir para a faculdade. Você pode até deixar a casa de seus pais e se mudar para outra cidade. Talvez você leve alguns objetos que o lembrem de suas lembranças de infância. Ou quem sabe, talvez você seja o pai ou a mãe deste novo ser independente. Seu coração dói pelos caminhos que seu filho ou sua filha tomarão. E talvez você esteja se percebendo no Toy Story 3. Você é Andy ou você é o pai de Andy.
+
+Quer você seja um dos pais de Andy ou do próprio Andy, é provável que nos últimos anos você tenha assistido a maioria dos filmes da Pixar. Você deve ter ficado aflito com o desespero de Encontrar Nemo, aprendeu algumas lições de Carros, ficou assustado com o futuro apocalíptico de Wall-e, e assim por diante.
+Aqui neste texto, a missão é fazer com que você não se sinta sozinho. Perceber que as aventuras contadas na tela do filme são emoções compartilhadas e são muito amadas pelo público e pelos críticos. Vamos ver isso através de dados e gráficos usando as cores da Toy Story, a franquia mais icônica da Pixar. Pegue seus balões de hélio e vamos juntos nesta jornada.
+
+## Orçamento, bilheteria...e crítica
+
+Eu não sou Andy nesta história. Eu sou o pai dele. Meu filho e eu costumávamos ver todos os filmes da Pixar. O primeiro de que me lembro foi Carros. Nós o vimos dezenas de vezes. Talvez por diferentes razões. Do meu lado, eu costumava gostar de ver o Art Deco e o espírito dos anos 50 e 60 que era facilmente reconhecido no filme.
+
+Se nossa primeira preferência era *Carros*, não há dúvidas de que este não era um ponto de vista comum. Neste primeiro gráfico abaixo, o ranking mostra outras escolhas.
+
+```{r}
+
+```
+
+Como mostrado acima,*Carros*, o meu  favorito, estã no lado inferior da lista. Mas, tudo bem. Talvez os críticos não tenham entendido o filme.
+
+Toy Story (1995) foi o primeiro filme da Pixar. A foto acima mostra que ele é o melhor avaliado por Roten Tomatoes e está listado nos três primeiros pela Metacritic. O segundo lugar quando se avalia a média das notas é ocupado pelo segundo filme da Pixar, Vida de Inseto (1998). Como parece que os primeiros filmes foram às vezes melhor avaliados do que os mais recentes, talvez seja uma boa idéia ver uma cronologia dos filmes, mas agora medindo o orçamento e a bilheteria relacionada a eles.
+
+```{r}
+
+```
+
+Como você pode ver acima, *Toy Story* nos conta uma história diferente dos outros filmes quando comparamos variáveis relacionadas ao dinheiro. Ele tem um orçamento muito pequeno e também uma bilheteria que está longe do grande desempenho alcançado pelos *blockbusters* mais importantes da Pixar. Talvez o público tivesse uma visão diferente do filme quando comparado aos pontos de vista dos críticos. Não tão rápido assim. Não sou especialista, mas talvez este fenômeno possa ser explicado pelo conjunto diferente de custos que estava implícito em fazer uma animação há 25 anos e até mesmo a inflação de todo este período pode influenciar o resultado final. Convido-os a fazer esta pesquisa.
+
+Ao olhar para a linha do tempo, é notável como *Os incríveis 2, Toy Story 3, e Toy Story 4* tiveram bons desempenhos. Esses filmes foram as principais fontes de lucro para a Pixar. Infelizmente, o mesmo não pode ser dito sobre *Soul*. Ainda não o vi, mas a maioria dos meus amigos me disse que é um grande filme. A pandemia aqui talvez tenha, de alguma forma, uma enorme influência sobre estes resultados.
+
+Como estamos falando de orçamento e bilheteria, uma pergunta que surge é: existe alguma relação que possamos descobrir quando vemos um gráfico de dispersão destas variáveis? Esta pergunta é respondida pela figura abaixo.
+
+```{r}
+
+```
+
+A regra dos quatro quadrantes está presente em nosso gráfico. Vemos alguns filmes com pequenos valores em ambas as variáveis. Estes são os casos de *Toy Story, Carros,* e *Toy Story 2*. Também podemos ver um orçamento pequeno e uma grande bilheteria em filmes como *Os incríveis* e *Procurando Nemo*. Há também representantes de um tipo de falha em termos de desempenho da Pixar: *Soul, Carros 3,* e *Os bons dinossauros*. Estes são os filmes com um grande orçamento e bilheteria pequena. E finalmente, podemos notar os grandes blockbusters representados pelos filmes *Os incríveis 2, Toy Story 4, Toy Story 3,* e *Procurando Nemo*. Nestes casos, isto é o que esperaríamos do senso comum: grandes orçamentos relacionados a grandes receitas.
+
+Outra relação que é uma boa idéia para testar é entre orçamento e média de notas do crítico. Junte-se a mim na análise.
+
+```{r}
+
+```
+
+No gráfico acima, notamos a inexistência do quadrante de orçamentos baixos com baixas classificações. O primeiro quadrante a ser analisado é aquele associado a filmes de baixo orçamento com altas classificações da crítica. Neste caso, *Toy Story* é, de longe, o melhor representante. Esta descoberta muda completamente a imagem deste filme quando o comparamos com o gráfico analisado anteriormente. Vemos, por outro lado, alguns filmes com um grande orçamento e com notas fracas. Destaque para *Carros* e *Carros 3*.Finalmente, é fácil perceber a grande concentração no que se espera do senso comum: grandes orçamentos com altas médias de notas. Aqui os destaques são *Toy Story 3* e *Toy Story 4*.
+Note que *Os incríveis 2*, um campeão de bilheteria como vimos no gráfico anterior, está no grupo do senso comum. Acontece, entretanto, que ele tem uma média de notas que não corresponde ao sucesso do público que o filme teve. Isto levanta outra questão: o sucesso do público se relaciona com o sucesso com os críticos? Recarregue seus balões com hélio e vamos continuar a viagem parando no próximo gráfico.
+
+```{r}
+
+```
+
+
+Em nossa última análise, parece estar claro que as avaliações críticas nem sempre coincidem com as avaliações do público, aqui representado pelas bilheterias alcançadas pelos filmes. Vemos que há casos de sucesso de crítica como *Soul* e *Toy Story 2*, mas com baixa receita. *Toy Story* está neste quadrante, mas como indicamos anteriormente, é difícil avaliá-lo como um relativo fracasso do público com base na receita do filme, já que se trata de dados de mais de duas décadas. Por outro lado, você vê que há coincidência na maioria dos outros filmes, especialmente no quadrante dos filmes com melhor classificação da crítica e desempenho de bilheteria. Para estes casos, *Toy Story 3, Toy Story 4* e *Procurando Nemo* parecem ser os melhores exemplos.
+
+## Apenas continue a nadar
+
+Chegamos agora ao final do texto. Vimos que as histórias contadas pela Pixar são parte de um conjunto de memórias compartilhadas por crianças, adolescentes, jovens e seus pais em várias partes do planeta. E até mesmo por aquela pessoas irritantes que escrevem sua opinião nos jornais (hey, isto é uma piada).
+
+Para nós pais que estamos percebendo as fases de mudança na vida de nossos filhos que agora enfrentarão o mundo com outras possibilidades e experiências, vale a pena lembrar do cartaz de Procurando Nemo.
+
+O mundo estará cheio de tubarões, medusas, e também Nemos, Dorys, baleias e tartarugas. No final do dia, o que parece ser mais importante é a famosa frase: continue a nadar.
+
+## Créditos
+
+Como não poderia ser de outra forma, devemos deixar os créditos dos filmes. Aqui a opção é utilizar os recursos de visualização de dados. Mostrarei abaixo os 23 profissionais que mais apareceram nessas pequenas letras no final dos filmes.
+
+A Stanton, Docter, Lasseter e sua gangue, nossos muitos agradecimentos. Que mais animações venham para ficar em nossa memória afetiva. Continuem a nadar.
+
+```{r}
+
+```
+
+Gostaria também de creditar Eric Leung, o autor do pacote [pixarfilms](https://github.com/erictleung/pixarfilms). Uma idéia certamente simples e ótima para a exploração de dados como esta.
+
+## Código e Dados
+
+O código e os dados estão disponíveis neste [gist](https://gist.github.com/fernandobarbalho/72137bd127d047ea0f293b3bd87d997d).
+Você pode me encontrar no [Twitter](https://twitter.com/barbalhofernand).
