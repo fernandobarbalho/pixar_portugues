@@ -4,7 +4,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dpi = 300)
 ```
 
 ```{r message=FALSE, warning=FALSE}
@@ -63,8 +63,9 @@ dados::pixar_avalicao_publico %>%
     axis.text.x = ggplot2::element_text(color = "#203DBD"),
     strip.background = ggplot2::element_rect(fill = "white"),
     strip.text = ggplot2::element_text(color = "#203DBD"),
-    axis.title = ggplot2::element_blank()
-  )
+   # axis.title = ggplot2::element_blank()
+  ) +
+  ggplot2::labs(x = "Nota", y = "Filme")
 ```
 
 Como mostrado acima, *Carros*, o meu  favorito, estã no lado inferior da lista. Mas, tudo bem. Talvez os críticos não tenham entendido o filme.
@@ -74,7 +75,8 @@ Toy Story (1995) foi o primeiro filme da Pixar. A foto acima mostra que ele é o
 ```{r}
 pixar_completo %>%
   dplyr::distinct(filme, data_lancamento, orcamento, bilheteria_mundial) %>%
-  dplyr::rename(`bilheteria mundial` = bilheteria_mundial) %>%
+  dplyr::rename(`Bilheteria Mundial` = bilheteria_mundial,
+                `Orçamento` = orcamento) %>%
   tidyr::pivot_longer(-c(1, 2), names_to = "dinheiro", values_to = "valor") %>%
   dplyr::mutate(valor = valor / 10^6) %>%
   ggplot2::ggplot(ggplot2::aes(x = data_lancamento, y = valor, fill = dinheiro)) +
@@ -92,8 +94,9 @@ pixar_completo %>%
     legend.position = "bottom"
   ) +
   ggplot2::labs(
-    x = "Release date",
-    y = "Box-office worldwide (US$ mi)"
+    x = "Ano de lançamento",
+    y = "Bilheteria mundial \n em milhões de dólares (US$)",
+    fill = ""
   ) +
   ggplot2::annotate(
     "text",
@@ -175,8 +178,8 @@ pixar_completo %>%
     panel.grid = ggplot2::element_blank()
   ) +
   ggplot2::labs(
-    x = "Budget (US$ mi)",
-    y = "Box-office worldwide (US$ mi)"
+    x = "Orçamento em milhões de dólares (US$)",
+    y = "Bilheteria mundial  \n em milhões de dólares (US$)"
   )
 ```
 
@@ -230,8 +233,8 @@ pixar_completo %>%
     panel.grid = ggplot2::element_blank()
   ) +
   ggplot2::labs(
-    x = "Budget  (US$ mi)",
-    y = "Grade"
+    x = "Orçamento em milhões de dólares (US$)",
+    y = "Nota"
   )
 ```
 
@@ -277,8 +280,8 @@ pixar_completo %>%
     panel.grid = ggplot2::element_blank()
   ) +
   ggplot2::labs(
-    y = "Box-office worldwide (US$ mi)",
-    x = "Grade"
+    y = "Bilheteria mundial  \n em milhões de dólares (US$)",
+    x = "Nota"
   )
 ```
 
@@ -350,7 +353,7 @@ pixar_completo %>%
     axis.title = ggplot2::element_blank(),
     legend.position = "bottom"
   ) +
-  ggplot2::labs(fill = "Role type")
+  ggplot2::labs(fill = "Cargo")
 ```
 
 Gostaria também de creditar Eric Leung, o autor do pacote [pixarfilms](https://github.com/erictleung/pixarfilms). Uma idéia certamente simples e ótima para a exploração de dados como esta.
