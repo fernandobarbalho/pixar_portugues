@@ -186,6 +186,53 @@ Outra relação que é uma boa idéia para testar é entre orçamento e média d
 
 ```{r}
 
+pixar_completo %>%
+  dplyr::distinct(
+    filme,
+    orcamento,
+    nota_rotten_tomatoes,
+    nota_metacritic,
+    nota_critics_choice
+  ) %>%
+  tidyr::pivot_longer(-c(filme, orcamento),
+    names_to = "critica",
+    values_to = "nota"
+  ) %>%
+  dplyr::group_by(filme) %>%
+  dplyr::summarise(
+    orcamento = max(orcamento),
+    nota = mean(nota, na.rm = TRUE)
+  ) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(
+    orcamento = orcamento / 10^6
+  ) %>%
+  ggplot2::ggplot(ggplot2::aes(
+    x = orcamento,
+    y = nota
+  )) +
+  ggplot2::geom_point(
+    size = 6,
+    fill = "#FFEF03",
+    color = "#203DBD",
+    pch = 21
+  ) +
+  ggrepel::geom_text_repel(
+    ggplot2::aes(label = stringr::str_wrap(filme, 15)),
+    color = "#FD0B0A",
+    fontface = "bold",
+    set.seed = 1972,
+    box.padding = grid::unit(1, "lines")
+  ) +
+  ggplot2::theme_light() +
+  ggplot2::theme(
+    panel.background = ggplot2::element_rect(fill = "black"),
+    panel.grid = ggplot2::element_blank()
+  ) +
+  ggplot2::labs(
+    x = "Budget  (US$ mi)",
+    y = "Grade"
+  )
 ```
 
 No gráfico acima, notamos a inexistência do quadrante de orçamentos baixos com baixas classificações. O primeiro quadrante a ser analisado é aquele associado a filmes de baixo orçamento com altas classificações da crítica. Neste caso, *Toy Story* é, de longe, o melhor representante. Esta descoberta muda completamente a imagem deste filme quando o comparamos com o gráfico analisado anteriormente. Vemos, por outro lado, alguns filmes com um grande orçamento e com notas fracas. Destaque para *Carros* e *Carros 3*.Finalmente, é fácil perceber a grande concentração no que se espera do senso comum: grandes orçamentos com altas médias de notas. Aqui os destaques são *Toy Story 3* e *Toy Story 4*.
