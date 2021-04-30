@@ -4,7 +4,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 ```
 
 ```{r message=FALSE, warning=FALSE}
@@ -45,7 +45,7 @@ dados::pixar_avalicao_publico %>%
   dplyr::mutate(critica = factor(
     critica,
     labels = c("Rotten tomatoes", "Metacritic", "Critics choice"),
-    levels =  c(
+    levels = c(
       "nota_rotten_tomatoes",
       "nota_metacritic",
       "nota_critics_choice"
@@ -74,27 +74,27 @@ Toy Story (1995) foi o primeiro filme da Pixar. A foto acima mostra que ele é o
 ```{r}
 pixar_completo %>%
   dplyr::distinct(filme, data_lancamento, orcamento, bilheteria_mundial) %>%
-  dplyr::rename(`bilheteria mundial` =  bilheteria_mundial) %>%
+  dplyr::rename(`bilheteria mundial` = bilheteria_mundial) %>%
   tidyr::pivot_longer(-c(1, 2), names_to = "dinheiro", values_to = "valor") %>%
-  dplyr::mutate(valor = valor / 10 ^ 6) %>%
-  ggplot2::ggplot(ggplot2::aes(x = data_lancamento, y = valor , fill = dinheiro)) +
+  dplyr::mutate(valor = valor / 10^6) %>%
+  ggplot2::ggplot(ggplot2::aes(x = data_lancamento, y = valor, fill = dinheiro)) +
   ggplot2::geom_col(color = "#203DBD") +
-  
   ggplot2::scale_fill_manual(values = c("#FFEF03", "#FD0B0A")) +
   ggplot2::scale_x_date(
     date_breaks = "2 years",
     date_labels = "%Y",
     guide = ggplot2::guide_axis(n.dodge = 1)
   ) +
-  
   ggplot2::theme_light() +
   ggplot2::theme(
     panel.background = ggplot2::element_rect(fill = "black"),
     panel.grid = ggplot2::element_blank(),
     legend.position = "bottom"
   ) +
-  ggplot2::labs(x = "Release date",
-                y = "Box-office worldwide (US$ mi)") +
+  ggplot2::labs(
+    x = "Release date",
+    y = "Box-office worldwide (US$ mi)"
+  ) +
   ggplot2::annotate(
     "text",
     x = as.Date("1995-11-22"),
@@ -134,7 +134,7 @@ pixar_completo %>%
     y = 300,
     label = "Soul",
     color = "#FD0B0A",
-    hjust = 0.2 ,
+    hjust = 0.2,
     fontface = "bold"
   )
 ```
@@ -146,7 +146,38 @@ Ao olhar para a linha do tempo, é notável como *Os incríveis 2, Toy Story 3, 
 Como estamos falando de orçamento e bilheteria, uma pergunta que surge é: existe alguma relação que possamos descobrir quando vemos um gráfico de dispersão destas variáveis? Esta pergunta é respondida pela figura abaixo.
 
 ```{r}
-
+pixar_completo %>%
+  dplyr::distinct(filme, orcamento, bilheteria_mundial) %>%
+  dplyr::mutate(
+    orcamento = orcamento / 10^6,
+    bilheteria_muncial = bilheteria_mundial / 10^6
+  ) %>%
+  ggplot2::ggplot(ggplot2::aes(
+    x = orcamento,
+    y = bilheteria_muncial
+  )) +
+  ggplot2::geom_point(
+    size = 6,
+    fill = "#FFEF03",
+    color = "#203DBD",
+    pch = 21
+  ) +
+  ggrepel::geom_text_repel(
+    ggplot2::aes(label = stringr::str_wrap(filme, 15)),
+    color = "#FD0B0A",
+    fontface = "bold",
+    set.seed = 1972,
+    box.padding = grid::unit(1, "lines")
+  ) +
+  ggplot2::theme_light() +
+  ggplot2::theme(
+    panel.background = ggplot2::element_rect(fill = "black"),
+    panel.grid = ggplot2::element_blank()
+  ) +
+  ggplot2::labs(
+    x = "Budget (US$ mi)",
+    y = "Box-office worldwide (US$ mi)"
+  )
 ```
 
 A regra dos quatro quadrantes está presente em nosso gráfico. Vemos alguns filmes com pequenos valores em ambas as variáveis. Estes são os casos de *Toy Story, Carros,* e *Toy Story 2*. Também podemos ver um orçamento pequeno e uma grande bilheteria em filmes como *Os incríveis* e *Procurando Nemo*. Há também representantes de um tipo de falha em termos de desempenho da Pixar: *Soul, Carros 3,* e *Os bons dinossauros*. Estes são os filmes com um grande orçamento e bilheteria pequena. E finalmente, podemos notar os grandes blockbusters representados pelos filmes *Os incríveis 2, Toy Story 4, Toy Story 3,* e *Procurando Nemo*. Nestes casos, isto é o que esperaríamos do senso comum: grandes orçamentos relacionados a grandes receitas.
