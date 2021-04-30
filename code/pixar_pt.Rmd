@@ -72,7 +72,71 @@ Como mostrado acima, *Carros*, o meu  favorito, estã no lado inferior da lista.
 Toy Story (1995) foi o primeiro filme da Pixar. A foto acima mostra que ele é o melhor avaliado por Roten Tomatoes e está listado nos três primeiros pela Metacritic. O segundo lugar quando se avalia a média das notas é ocupado pelo segundo filme da Pixar, Vida de Inseto (1998). Como parece que os primeiros filmes foram às vezes melhor avaliados do que os mais recentes, talvez seja uma boa idéia ver uma cronologia dos filmes, mas agora medindo o orçamento e a bilheteria relacionada a eles.
 
 ```{r}
-
+pixar_completo %>%
+  dplyr::distinct(filme, data_lancamento, orcamento, bilheteria_mundial) %>%
+  dplyr::rename(`bilheteria mundial` =  bilheteria_mundial) %>%
+  tidyr::pivot_longer(-c(1, 2), names_to = "dinheiro", values_to = "valor") %>%
+  dplyr::mutate(valor = valor / 10 ^ 6) %>%
+  ggplot2::ggplot(ggplot2::aes(x = data_lancamento, y = valor , fill = dinheiro)) +
+  ggplot2::geom_col(color = "#203DBD") +
+  
+  ggplot2::scale_fill_manual(values = c("#FFEF03", "#FD0B0A")) +
+  ggplot2::scale_x_date(
+    date_breaks = "2 years",
+    date_labels = "%Y",
+    guide = ggplot2::guide_axis(n.dodge = 1)
+  ) +
+  
+  ggplot2::theme_light() +
+  ggplot2::theme(
+    panel.background = ggplot2::element_rect(fill = "black"),
+    panel.grid = ggplot2::element_blank(),
+    legend.position = "bottom"
+  ) +
+  ggplot2::labs(x = "Release date",
+                y = "Box-office worldwide (US$ mi)") +
+  ggplot2::annotate(
+    "text",
+    x = as.Date("1995-11-22"),
+    y = 450,
+    label = "Toy Story",
+    color = "#FD0B0A",
+    fontface = "bold"
+  ) +
+  ggplot2::annotate(
+    "text",
+    x = as.Date("2018-06-15"),
+    y = 1480,
+    label = "Incredibles 2",
+    color = "#FD0B0A",
+    fontface = "bold"
+  ) +
+  ggplot2::annotate(
+    "text",
+    x = as.Date("2010-06-18"),
+    y = 1310,
+    label = "Toy Story 3",
+    color = "#FD0B0A",
+    fontface = "bold"
+  ) +
+  ggplot2::annotate(
+    "text",
+    x = as.Date("2019-06-21"),
+    y = 1310,
+    label = "Toy Story 4",
+    color = "#FD0B0A",
+    hjust = 0.2,
+    fontface = "bold"
+  ) +
+  ggplot2::annotate(
+    "text",
+    x = as.Date("2020-12-25"),
+    y = 300,
+    label = "Soul",
+    color = "#FD0B0A",
+    hjust = 0.2 ,
+    fontface = "bold"
+  )
 ```
 
 Como você pode ver acima, *Toy Story* nos conta uma história diferente dos outros filmes quando comparamos variáveis relacionadas ao dinheiro. Ele tem um orçamento muito pequeno e também uma bilheteria que está longe do grande desempenho alcançado pelos *blockbusters* mais importantes da Pixar. Talvez o público tivesse uma visão diferente do filme quando comparado aos pontos de vista dos críticos. Não tão rápido assim. Não sou especialista, mas talvez este fenômeno possa ser explicado pelo conjunto diferente de custos que estava implícito em fazer uma animação há 25 anos e até mesmo a inflação de todo este período pode influenciar o resultado final. Convido-os a fazer esta pesquisa.
