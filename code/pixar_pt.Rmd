@@ -4,7 +4,24 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
+```
+
+```{r message=FALSE, warning=FALSE}
+# Carregar o pipe
+library(magrittr, include.only = "%>%")
+
+# Instalar o pacote dados (se necessário)
+# install.packages("remotes")
+# remotes::install_github("cienciadedatos/dados")
+
+
+pixar_completo <-
+  dados::pixar_filmes %>%
+  dplyr::inner_join(dados::pixar_generos) %>%
+  dplyr::inner_join(dados::pixar_equipe) %>%
+  dplyr::inner_join(dados::pixar_bilheteria) %>%
+  dplyr::inner_join(dados::pixar_avalicao_publico)
 ```
 
 
@@ -21,11 +38,36 @@ Eu não sou Andy nesta história. Eu sou o pai dele. Meu filho e eu costumávamo
 
 Se nossa primeira preferência era *Carros*, não há dúvidas de que este não era um ponto de vista comum. Neste primeiro gráfico abaixo, o ranking mostra outras escolhas.
 
-```{r}
-
+```{r grafico_avaliacao_publico, echo=FALSE}
+dados::pixar_avalicao_publico %>%
+  dplyr::select(-nota_cinema_score) %>%
+  tidyr::pivot_longer(-filme, names_to = "critica", values_to = "nota") %>%
+  dplyr::mutate(critica = factor(
+    critica,
+    labels = c("Rotten tomatoes", "Metacritic", "Critics choice"),
+    levels =  c(
+      "nota_rotten_tomatoes",
+      "nota_metacritic",
+      "nota_critics_choice"
+    )
+  )) %>%
+  dplyr::mutate(filme = reorder(filme, nota, FUN = sum)) %>%
+  ggplot2::ggplot(ggplot2::aes(y = filme, x = nota)) +
+  ggplot2::geom_col(fill = "#FFEF03", color = "#FD0B0A") +
+  ggplot2::facet_wrap(critica ~ .) +
+  ggplot2::theme_light() +
+  ggplot2::theme(
+    panel.background = ggplot2::element_rect(fill = "black"),
+    panel.grid = ggplot2::element_blank(),
+    axis.text.y = ggplot2::element_text(color = "#FD0B0A"),
+    axis.text.x = ggplot2::element_text(color = "#203DBD"),
+    strip.background = ggplot2::element_rect(fill = "white"),
+    strip.text = ggplot2::element_text(color = "#203DBD"),
+    axis.title = ggplot2::element_blank()
+  )
 ```
 
-Como mostrado acima,*Carros*, o meu  favorito, estã no lado inferior da lista. Mas, tudo bem. Talvez os críticos não tenham entendido o filme.
+Como mostrado acima, *Carros*, o meu  favorito, estã no lado inferior da lista. Mas, tudo bem. Talvez os críticos não tenham entendido o filme.
 
 Toy Story (1995) foi o primeiro filme da Pixar. A foto acima mostra que ele é o melhor avaliado por Roten Tomatoes e está listado nos três primeiros pela Metacritic. O segundo lugar quando se avalia a média das notas é ocupado pelo segundo filme da Pixar, Vida de Inseto (1998). Como parece que os primeiros filmes foram às vezes melhor avaliados do que os mais recentes, talvez seja uma boa idéia ver uma cronologia dos filmes, mas agora medindo o orçamento e a bilheteria relacionada a eles.
 
