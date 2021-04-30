@@ -239,7 +239,47 @@ No gráfico acima, notamos a inexistência do quadrante de orçamentos baixos co
 Note que *Os incríveis 2*, um campeão de bilheteria como vimos no gráfico anterior, está no grupo do senso comum. Acontece, entretanto, que ele tem uma média de notas que não corresponde ao sucesso do público que o filme teve. Isto levanta outra questão: o sucesso do público se relaciona com o sucesso com os críticos? Recarregue seus balões com hélio e vamos continuar a viagem parando no próximo gráfico.
 
 ```{r}
-
+pixar_completo %>%
+  dplyr::distinct(
+    filme,
+    bilheteria_mundial,
+    nota_rotten_tomatoes,
+    nota_metacritic,
+    nota_critics_choice
+  ) %>%
+  tidyr::pivot_longer(-c(filme, bilheteria_mundial),
+    names_to = "critica",
+    values_to = "nota"
+  ) %>%
+  dplyr::group_by(filme) %>%
+  dplyr::summarise(
+    bilheteria_mundial = max(bilheteria_mundial),
+    nota = mean(nota, na.rm = TRUE)
+  ) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(bilheteria_mundial = bilheteria_mundial / 10^6) %>%
+  ggplot2::ggplot(ggplot2::aes(y = bilheteria_mundial, x = nota)) +
+  ggplot2::geom_point(
+    size = 6,
+    fill = "#FFEF03",
+    color = "#203DBD",
+    pch = 21
+  ) +
+  ggrepel::geom_text_repel(
+    ggplot2::aes(label = stringr::str_wrap(filme, 15)),
+    fontface = "bold",
+    color = "#FD0B0A",
+    box.padding = grid::unit(1, "lines")
+  ) +
+  ggplot2::theme_light() +
+  ggplot2::theme(
+    panel.background = ggplot2::element_rect(fill = "black"),
+    panel.grid = ggplot2::element_blank()
+  ) +
+  ggplot2::labs(
+    y = "Box-office worldwide (US$ mi)",
+    x = "Grade"
+  )
 ```
 
 
@@ -260,7 +300,57 @@ Como não poderia ser de outra forma, devemos deixar os créditos dos filmes. Aq
 A Stanton, Docter, Lasseter e sua gangue, nossos muitos agradecimentos. Que mais animações venham para ficar em nossa memória afetiva. Continuem a nadar.
 
 ```{r}
+equipe_20 <-
+  pixar_completo %>%
+  dplyr::mutate(
+    nome = dplyr::case_when(
+      nome == "Stanton" ~ "Andrew Stanton",
+      nome == "Docter" ~ "Pete Docter",
+      nome == "Lasseter" ~ "John Lasseter",
+      nome == "Unkrich" ~ "Lee Unkrich",
+      nome == "Scanlon" ~ "Dan Scanlon",
+      TRUE ~ nome
+    )
+  ) %>%
+  dplyr::group_by(nome) %>%
+  dplyr::summarise(quant = dplyr::n()) %>%
+  dplyr::ungroup() %>%
+  dplyr::slice_max(order_by = quant, n = 20) %>%
+  dplyr::select(nome)
 
+
+
+pixar_completo %>%
+  dplyr::mutate(
+    nome = dplyr::case_when(
+      nome == "Stanton" ~ "Andrew Stanton",
+      nome == "Docter" ~ "Pete Docter",
+      nome == "Lasseter" ~ "John Lasseter",
+      nome == "Unkrich" ~ "Lee Unkrich",
+      nome == "Scanlon" ~ "Dan Scanlon",
+      TRUE ~ nome
+    )
+  ) %>%
+  dplyr::inner_join(equipe_20) %>%
+  dplyr::group_by(nome, cargo) %>%
+  dplyr::summarise(
+    quant = dplyr::n()
+  ) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(nome = forcats::fct_reorder(nome, quant, sum)) %>%
+  ggplot2::ggplot(ggplot2::aes(y = nome, x = quant, fill = cargo)) +
+  ggplot2::geom_col(color = "#EA623B") +
+  ggplot2::scale_fill_manual(values = c("#628528", "#FD0B0A", "#203DBD", "#FDA40C", "#FFEF03")) +
+  ggplot2::theme_light() +
+  ggplot2::theme(
+    panel.background = ggplot2::element_rect(fill = "black"),
+    panel.grid = ggplot2::element_blank(),
+    axis.text.y = ggplot2::element_text(color = "#FD0B0A"),
+    axis.text.x = ggplot2::element_text(color = "#203DBD"),
+    axis.title = ggplot2::element_blank(),
+    legend.position = "bottom"
+  ) +
+  ggplot2::labs(fill = "Role type")
 ```
 
 Gostaria também de creditar Eric Leung, o autor do pacote [pixarfilms](https://github.com/erictleung/pixarfilms). Uma idéia certamente simples e ótima para a exploração de dados como esta.
