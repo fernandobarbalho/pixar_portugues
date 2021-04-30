@@ -51,6 +51,13 @@
       "Repository": "CRAN",
       "Hash": "e031418365a7f7a766181ab5a41a5716"
     },
+    "Rcpp": {
+      "Package": "Rcpp",
+      "Version": "1.0.6",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "dbb5e436998a7eba5a9d682060533338"
+    },
     "babynames": {
       "Package": "babynames",
       "Version": "1.0.1",
@@ -181,6 +188,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "3eb6477d01eb5bbdc03f7d5f70f2733e"
+    },
+    "ggrepel": {
+      "Package": "ggrepel",
+      "Version": "0.9.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "08ab869f37e6a7741a64ab9069bcb67d"
     },
     "glue": {
       "Package": "glue",
