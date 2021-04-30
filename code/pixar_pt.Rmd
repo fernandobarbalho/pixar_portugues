@@ -24,6 +24,13 @@ pixar_completo <-
   dplyr::inner_join(dados::pixar_avalicao_publico)
 ```
 
+```{r}
+paleta_de_cores <- c(
+  "#3170A9", "#F0F6F0", "#F7C026",
+  "#D04427", "#EAAB66", "#864F34"
+)
+```
+
 
 ## Pixar e as lembranças afetivas
 
@@ -53,19 +60,18 @@ dados::pixar_avalicao_publico %>%
   )) %>%
   dplyr::mutate(filme = reorder(filme, nota, FUN = sum)) %>%
   ggplot2::ggplot(ggplot2::aes(y = filme, x = nota)) +
-  ggplot2::geom_col(fill = "#FFEF03", color = "#FD0B0A") +
+  ggplot2::geom_col(fill = paleta_de_cores[1], color = paleta_de_cores[7]) +
   ggplot2::facet_wrap(critica ~ .) +
+  ggplot2::labs(x = "Nota", y = "Filme") +
   ggplot2::theme_light() +
   ggplot2::theme(
-    panel.background = ggplot2::element_rect(fill = "black"),
+    panel.background = ggplot2::element_rect(fill = paleta_de_cores[2]),
     panel.grid = ggplot2::element_blank(),
-    axis.text.y = ggplot2::element_text(color = "#FD0B0A"),
-    axis.text.x = ggplot2::element_text(color = "#203DBD"),
+    axis.text.y = ggplot2::element_text(color = paleta_de_cores[1]),
+    axis.text.x = ggplot2::element_text(color = paleta_de_cores[1]),
     strip.background = ggplot2::element_rect(fill = "white"),
-    strip.text = ggplot2::element_text(color = "#203DBD"),
-   # axis.title = ggplot2::element_blank()
-  ) +
-  ggplot2::labs(x = "Nota", y = "Filme")
+    strip.text = ggplot2::element_text(color = paleta_de_cores[1])
+  )
 ```
 
 Como mostrado acima, *Carros*, o meu  favorito, estã no lado inferior da lista. Mas, tudo bem. Talvez os críticos não tenham entendido o filme.
@@ -75,13 +81,15 @@ Toy Story (1995) foi o primeiro filme da Pixar. A foto acima mostra que ele é o
 ```{r}
 pixar_completo %>%
   dplyr::distinct(filme, data_lancamento, orcamento, bilheteria_mundial) %>%
-  dplyr::rename(`Bilheteria Mundial` = bilheteria_mundial,
-                `Orçamento` = orcamento) %>%
+  dplyr::rename(
+    `Bilheteria Mundial` = bilheteria_mundial,
+    `Orçamento` = orcamento
+  ) %>%
   tidyr::pivot_longer(-c(1, 2), names_to = "dinheiro", values_to = "valor") %>%
   dplyr::mutate(valor = valor / 10^6) %>%
   ggplot2::ggplot(ggplot2::aes(x = data_lancamento, y = valor, fill = dinheiro)) +
-  ggplot2::geom_col(color = "#203DBD") +
-  ggplot2::scale_fill_manual(values = c("#FFEF03", "#FD0B0A")) +
+  ggplot2::geom_col(color = paleta_de_cores[7]) +
+  ggplot2::scale_fill_manual(values = c(paleta_de_cores[5], paleta_de_cores[6])) +
   ggplot2::scale_x_date(
     date_breaks = "2 years",
     date_labels = "%Y",
@@ -89,9 +97,11 @@ pixar_completo %>%
   ) +
   ggplot2::theme_light() +
   ggplot2::theme(
-    panel.background = ggplot2::element_rect(fill = "black"),
+    panel.background = ggplot2::element_rect(fill = paleta_de_cores[2]),
     panel.grid = ggplot2::element_blank(),
-    legend.position = "bottom"
+    legend.position = "bottom",
+    axis.text.y = ggplot2::element_text(color = paleta_de_cores[1]),
+    axis.text.x = ggplot2::element_text(color = paleta_de_cores[1]),
   ) +
   ggplot2::labs(
     x = "Ano de lançamento",
@@ -103,7 +113,7 @@ pixar_completo %>%
     x = as.Date("1995-11-22"),
     y = 450,
     label = "Toy Story",
-    color = "#FD0B0A",
+    color = paleta_de_cores[1],
     fontface = "bold"
   ) +
   ggplot2::annotate(
@@ -111,7 +121,7 @@ pixar_completo %>%
     x = as.Date("2018-06-15"),
     y = 1480,
     label = "Incredibles 2",
-    color = "#FD0B0A",
+    color = paleta_de_cores[1],
     fontface = "bold"
   ) +
   ggplot2::annotate(
@@ -119,7 +129,7 @@ pixar_completo %>%
     x = as.Date("2010-06-18"),
     y = 1310,
     label = "Toy Story 3",
-    color = "#FD0B0A",
+    color = paleta_de_cores[1],
     fontface = "bold"
   ) +
   ggplot2::annotate(
@@ -127,7 +137,7 @@ pixar_completo %>%
     x = as.Date("2019-06-21"),
     y = 1310,
     label = "Toy Story 4",
-    color = "#FD0B0A",
+    color = paleta_de_cores[1],
     hjust = 0.2,
     fontface = "bold"
   ) +
@@ -136,7 +146,7 @@ pixar_completo %>%
     x = as.Date("2020-12-25"),
     y = 300,
     label = "Soul",
-    color = "#FD0B0A",
+    color = paleta_de_cores[1],
     hjust = 0.2,
     fontface = "bold"
   )
@@ -161,21 +171,23 @@ pixar_completo %>%
   )) +
   ggplot2::geom_point(
     size = 6,
-    fill = "#FFEF03",
-    color = "#203DBD",
+    fill = paleta_de_cores[1],
+    color = paleta_de_cores[5],
     pch = 21
   ) +
   ggrepel::geom_text_repel(
     ggplot2::aes(label = stringr::str_wrap(filme, 15)),
-    color = "#FD0B0A",
+    color = paleta_de_cores[1],
     fontface = "bold",
     set.seed = 1972,
     box.padding = grid::unit(1, "lines")
   ) +
   ggplot2::theme_light() +
   ggplot2::theme(
-    panel.background = ggplot2::element_rect(fill = "black"),
-    panel.grid = ggplot2::element_blank()
+    panel.background = ggplot2::element_rect(fill = paleta_de_cores[2]),
+    panel.grid = ggplot2::element_blank(),
+        axis.text.y = ggplot2::element_text(color = paleta_de_cores[1]),
+    axis.text.x = ggplot2::element_text(color = paleta_de_cores[1])
   ) +
   ggplot2::labs(
     x = "Orçamento em milhões de dólares (US$)",
@@ -216,20 +228,22 @@ pixar_completo %>%
   )) +
   ggplot2::geom_point(
     size = 6,
-    fill = "#FFEF03",
-    color = "#203DBD",
+    fill = paleta_de_cores[1],
+    color = paleta_de_cores[5],
     pch = 21
   ) +
   ggrepel::geom_text_repel(
     ggplot2::aes(label = stringr::str_wrap(filme, 15)),
-    color = "#FD0B0A",
+    fill = paleta_de_cores[1],
     fontface = "bold",
     set.seed = 1972,
     box.padding = grid::unit(1, "lines")
   ) +
   ggplot2::theme_light() +
   ggplot2::theme(
-    panel.background = ggplot2::element_rect(fill = "black"),
+    panel.background = ggplot2::element_rect(fill = paleta_de_cores[2]),
+        axis.text.y = ggplot2::element_text(color = paleta_de_cores[1]),
+    axis.text.x = ggplot2::element_text(color = paleta_de_cores[1]),
     panel.grid = ggplot2::element_blank()
   ) +
   ggplot2::labs(
@@ -264,19 +278,21 @@ pixar_completo %>%
   ggplot2::ggplot(ggplot2::aes(y = bilheteria_mundial, x = nota)) +
   ggplot2::geom_point(
     size = 6,
-    fill = "#FFEF03",
-    color = "#203DBD",
+    fill = paleta_de_cores[1],
+    color = paleta_de_cores[5],
     pch = 21
   ) +
   ggrepel::geom_text_repel(
     ggplot2::aes(label = stringr::str_wrap(filme, 15)),
     fontface = "bold",
-    color = "#FD0B0A",
+    color = paleta_de_cores[1],
     box.padding = grid::unit(1, "lines")
   ) +
   ggplot2::theme_light() +
   ggplot2::theme(
-    panel.background = ggplot2::element_rect(fill = "black"),
+    panel.background = ggplot2::element_rect(fill = paleta_de_cores[2]),    
+    axis.text.y = ggplot2::element_text(color = paleta_de_cores[1]),
+    axis.text.x = ggplot2::element_text(color = paleta_de_cores[1]),
     panel.grid = ggplot2::element_blank()
   ) +
   ggplot2::labs(
@@ -342,14 +358,17 @@ pixar_completo %>%
   dplyr::ungroup() %>%
   dplyr::mutate(nome = forcats::fct_reorder(nome, quant, sum)) %>%
   ggplot2::ggplot(ggplot2::aes(y = nome, x = quant, fill = cargo)) +
-  ggplot2::geom_col(color = "#EA623B") +
-  ggplot2::scale_fill_manual(values = c("#628528", "#FD0B0A", "#203DBD", "#FDA40C", "#FFEF03")) +
+  ggplot2::geom_col() +
+  ggplot2::scale_fill_manual(
+    values =
+      paleta_de_cores[-2]
+  ) +
   ggplot2::theme_light() +
   ggplot2::theme(
-    panel.background = ggplot2::element_rect(fill = "black"),
+    panel.background = ggplot2::element_rect(fill = paleta_de_cores[2]),
     panel.grid = ggplot2::element_blank(),
-    axis.text.y = ggplot2::element_text(color = "#FD0B0A"),
-    axis.text.x = ggplot2::element_text(color = "#203DBD"),
+    axis.text.y = ggplot2::element_text(color = paleta_de_cores[1]),
+    axis.text.x = ggplot2::element_text(color = paleta_de_cores[1]),
     axis.title = ggplot2::element_blank(),
     legend.position = "bottom"
   ) +
