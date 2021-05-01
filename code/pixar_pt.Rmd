@@ -4,7 +4,12 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dpi = 300)
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE,
+	dpi = 300
+)
 ```
 
 ```{r message=FALSE, warning=FALSE}
@@ -186,7 +191,7 @@ pixar_completo %>%
   ggplot2::theme(
     panel.background = ggplot2::element_rect(fill = paleta_de_cores[2]),
     panel.grid = ggplot2::element_blank(),
-        axis.text.y = ggplot2::element_text(color = paleta_de_cores[1]),
+    axis.text.y = ggplot2::element_text(color = paleta_de_cores[1]),
     axis.text.x = ggplot2::element_text(color = paleta_de_cores[1])
   ) +
   ggplot2::labs(
@@ -242,7 +247,7 @@ pixar_completo %>%
   ggplot2::theme_light() +
   ggplot2::theme(
     panel.background = ggplot2::element_rect(fill = paleta_de_cores[2]),
-        axis.text.y = ggplot2::element_text(color = paleta_de_cores[1]),
+    axis.text.y = ggplot2::element_text(color = paleta_de_cores[1]),
     axis.text.x = ggplot2::element_text(color = paleta_de_cores[1]),
     panel.grid = ggplot2::element_blank()
   ) +
@@ -290,7 +295,7 @@ pixar_completo %>%
   ) +
   ggplot2::theme_light() +
   ggplot2::theme(
-    panel.background = ggplot2::element_rect(fill = paleta_de_cores[2]),    
+    panel.background = ggplot2::element_rect(fill = paleta_de_cores[2]),
     axis.text.y = ggplot2::element_text(color = paleta_de_cores[1]),
     axis.text.x = ggplot2::element_text(color = paleta_de_cores[1]),
     panel.grid = ggplot2::element_blank()
