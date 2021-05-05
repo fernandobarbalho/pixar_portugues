@@ -1,3 +1,4 @@
+library(ggplot2)
 dados::pixar_oscars %>%
   dplyr::inner_join(dados::pixar_bilheteria) %>%
   dplyr::filter(resultado %in% c("Venceu", "Venceu Prêmio Especial")) %>%

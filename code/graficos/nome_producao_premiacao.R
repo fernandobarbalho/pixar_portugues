@@ -1,3 +1,36 @@
+library(magrittr, include.only = "%>%")
+
+pixar_completo <-
+  dados::pixar_filmes %>%
+  dplyr::inner_join(dados::pixar_generos) %>%
+  dplyr::inner_join(dados::pixar_equipe) %>%
+  dplyr::inner_join(dados::pixar_bilheteria) %>%
+  dplyr::inner_join(dados::pixar_avalicao_publico)
+
+equipe_20 <-
+  pixar_completo %>%
+  dplyr::mutate(
+    nome = dplyr::case_when(
+      nome == "Stanton" ~ "Andrew Stanton",
+      nome == "Docter" ~ "Pete Docter",
+      nome == "Lasseter" ~ "John Lasseter",
+      nome == "Unkrich" ~ "Lee Unkrich",
+      nome == "Scanlon" ~ "Dan Scanlon",
+      TRUE ~ nome
+    )
+  ) %>%
+  dplyr::group_by(nome) %>%
+  dplyr::summarise(quant = dplyr::n()) %>%
+  dplyr::ungroup() %>%
+  dplyr::slice_max(order_by = quant, n = 20) %>%
+  dplyr::select(nome)
+
+paleta_de_cores <- c(
+  "#3170A9", "#F0F6F0", "#F7C026",
+  "#D04427", "#EAAB66", "#864F34"
+)
+# graficos a partir daqui
+
 dados::pixar_oscars %>%
   dplyr::inner_join(dados::pixar_equipe) %>%
   dplyr::inner_join(equipe_20) %>%

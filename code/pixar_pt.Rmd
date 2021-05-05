@@ -37,6 +37,20 @@ paleta_de_cores <- c(
 ```
 
 
+## Introdução
+
+O post abaixo foi escrito por [Fernando Barbalho](https://twitter.com/barbalhofernand) e inicialmente publicado no blog ["Towards Data Science"](https://towardsdatascience.com/pixar-a-data-story-a3a2cad95081) em Inglês, e agora apresentamos a tradução em Português.
+
+A ideia de traduzir o texto para Português foi impulsionada pela disponibilização da base de dados sobre filmes da Pixar em português no pacote [Dados](https://cienciadedatos.github.io/dados/). Esse pacote foi criado pela comunidade de R na América Latina (contando com pessoas que fazem parte da [Latin-R](https://latin-r.com/), [R-Ladies](https://rladies.org/) e [Curso-R](https://curso-r.com/material/)).
+
+Alguns dos objetivos do pacote são:
+- disponibilizar bases de dados em Português utilizadas principalmente no ensino de R (como cursos, livros - estão disponíveis todas as bases usadas no clássico livro [R for Data Science](https://r4ds.had.co.nz/), textos em blogs, etc);
+- colaborar com a diminuição a lacuna linguística, e facilitar o entendimento das aulas 
+
+Beatriz Milz e Emanuelle colaboraram na tradução do 
+
+
+
 ## Pixar e as lembranças afetivas
 
 Então, você finalmente completou 18 anos. Você está se preparando para ir para a faculdade. Você pode até deixar a casa de seus pais e se mudar para outra cidade. Talvez você leve alguns objetos que o lembrem de suas lembranças de infância. Ou quem sabe, talvez você seja o pai ou a mãe deste novo ser independente. Seu coração dói pelos caminhos que seu filho ou sua filha tomarão. E talvez você esteja se percebendo no Toy Story 3. Você é Andy ou você é o pai de Andy.
