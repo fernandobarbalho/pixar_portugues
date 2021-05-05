@@ -43,11 +43,17 @@ O post abaixo foi escrito por [Fernando Barbalho](https://twitter.com/barbalhofe
 
 A ideia de traduzir o texto para Português foi impulsionada pela disponibilização da base de dados sobre filmes da Pixar em português no pacote [Dados](https://cienciadedatos.github.io/dados/). Esse pacote foi criado pela comunidade de R na América Latina (contando com pessoas que fazem parte da [Latin-R](https://latin-r.com/), [R-Ladies](https://rladies.org/) e [Curso-R](https://curso-r.com/material/)).
 
-Alguns dos objetivos do pacote são:
-- disponibilizar bases de dados em Português utilizadas principalmente no ensino de R (como cursos, livros - estão disponíveis todas as bases usadas no clássico livro [R for Data Science](https://r4ds.had.co.nz/), textos em blogs, etc);
-- colaborar com a diminuição a lacuna linguística, e facilitar o entendimento das aulas 
+Alguns dos objetivos do pacote [Dados](https://cienciadedatos.github.io/dados/) são:
 
-Beatriz Milz e Emanuelle colaboraram na tradução do 
+- Disponibilizar bases de dados em Português utilizadas principalmente no ensino de R (como cursos, textos em blogs, livros - estão disponíveis todas as bases usadas no clássico livro [R for Data Science](https://r4ds.had.co.nz/), entre outros);
+
+- Incentivar pessoas a ser tornarem desenvolvedoras em R (várias pessoas que participaram do desenvolvimento do pacote e realizaram traduções não tinham experiência com colaboração via GitHub e desenvolvimento de pacotes em R, por exemplo);
+
+- Colaborar com a diminuição da lacuna linguística em materiais usados no ensino de R.
+
+[Emmanuelle Nunes](https://www.linkedin.com/in/emmanuellernunes) foi convidada para co-autorar este post por ser a pessoa que realizou a tradução de todas as bases de dados do pacote [pixarfilms](https://github.com/erictleung/pixarfilms). Já a [Beatriz Milz](https://twitter.com/BeaMilz) foi convidada por ter uma atuação importante na organização da equipe para realizar as traduções das bases de dados  (além de realizar traduções em si). Ambas colaboraram na adaptação dos códigos já existentes para usar as bases de dados em português, e na adaptação de alguns gráficos. 
+
+Os códigos originais (usados no post em inglês) podem ser consultados [neste link](https://gist.github.com/fernandobarbalho/72137bd127d047ea0f293b3bd87d997d), e os códigos atualizados (usados nesta versão traduzida) [estão neste link](https://github.com/fernandobarbalho/pixar_portugues/blob/main/code/pixar_pt.Rmd).
 
 
 
@@ -395,8 +401,3 @@ pixar_completo %>%
 ```
 
 Gostaria também de creditar Eric Leung, o autor do pacote [pixarfilms](https://github.com/erictleung/pixarfilms). Uma idéia certamente simples e ótima para a exploração de dados como esta.
-
-## Código e Dados
-
-O código e os dados estão disponíveis neste [gist](https://gist.github.com/fernandobarbalho/72137bd127d047ea0f293b3bd87d997d).
-Você pode me encontrar no [Twitter](https://twitter.com/barbalhofernand).
