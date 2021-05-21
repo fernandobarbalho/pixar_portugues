@@ -26,7 +26,17 @@ pixar_completo <-
   dplyr::inner_join(dados::pixar_generos) %>%
   dplyr::inner_join(dados::pixar_equipe) %>%
   dplyr::inner_join(dados::pixar_bilheteria) %>%
-  dplyr::inner_join(dados::pixar_avalicao_publico)
+  dplyr::inner_join(dados::pixar_avalicao_publico) 
+
+
+pixar_completo_nome_curto <- pixar_completo%>% 
+  dplyr::mutate(filme = dplyr::case_when(
+    filme == "Toy Story - Um Mundo de Aventuras" ~ "Toy Story",
+    filme == "Up - Altas Aventuras" ~ "Up",  
+    filme == "Viva - A Vida é Uma Festa" ~ "Viva",  
+    filme == "Dois Irmãos: Uma Jornada Fantástica" ~ "Dois Irmãos",
+    TRUE ~ filme))
+
 ```
 
 ```{r}
@@ -192,7 +202,7 @@ Ao olhar para a linha do tempo, é notável como *Os Incríveis 2, Toy Story 3, 
 Como estamos falando de orçamento e bilheteria, uma pergunta que surge é: existe alguma relação que possamos descobrir quando vemos um gráfico de dispersão destas variáveis? Esta pergunta é respondida pela figura abaixo.
 
 ```{r}
-pixar_completo %>%
+pixar_completo_nome_curto %>%
   dplyr::distinct(filme, orcamento, bilheteria_mundial) %>%
   dplyr::mutate(
     orcamento = orcamento / 10^6,
@@ -203,16 +213,20 @@ pixar_completo %>%
     y = bilheteria_muncial
   )) +
   ggplot2::geom_point(
-    size = 6,
+    size = 4,
     fill = paleta_de_cores_2[1],
     color = paleta_de_cores_2[5],
-    pch = 21
+    pch = 21,
+    alpha = 0.7
   ) +
   ggrepel::geom_text_repel(
     ggplot2::aes(label = stringr::str_wrap(filme, 15)),
+    size = 3.5,
     color = paleta_de_cores[1],
     fontface = "bold",
     set.seed = 1972,
+    segment.linetype = 5,
+    segment.alpha = 0.5,
     box.padding = grid::unit(1, "lines")
   ) +
   ggplot2::theme_light() +
@@ -233,8 +247,7 @@ A regra dos quatro quadrantes está presente em nosso gráfico. Vemos alguns fil
 Outra relação que é uma boa idéia para testar é entre orçamento e média de notas do crítico. Junte-se a mim na análise.
 
 ```{r}
-
-pixar_completo %>%
+pixar_completo_nome_curto %>%
   dplyr::distinct(
     filme,
     orcamento,
@@ -260,16 +273,20 @@ pixar_completo %>%
     y = nota
   )) +
   ggplot2::geom_point(
-    size = 6,
+    size = 4,
     fill = paleta_de_cores_2[1],
     color = paleta_de_cores_2[5],
-    pch = 21
+    pch = 21,
+    alpha = 0.7
   ) +
   ggrepel::geom_text_repel(
     ggplot2::aes(label = stringr::str_wrap(filme, 15)),
+    size = 3.5,
     color = paleta_de_cores[1],
     fontface = "bold",
     set.seed = 1972,
+    segment.linetype = 5,
+    segment.alpha = 0.5,
     box.padding = grid::unit(1, "lines")
   ) +
   ggplot2::theme_light() +
@@ -289,7 +306,7 @@ No gráfico acima, notamos a inexistência do quadrante de orçamentos baixos co
 Note que *Os Incríveis 2*, um campeão de bilheteria como vimos no gráfico anterior, está no grupo do senso comum. Acontece, entretanto, que ele tem uma média de notas que não corresponde ao sucesso do público que o filme teve. Isto levanta outra questão: o sucesso do público se relaciona com o sucesso com os críticos? Recarregue seus balões com hélio e vamos continuar a viagem parando no próximo gráfico.
 
 ```{r}
-pixar_completo %>%
+pixar_completo_nome_curto  %>%
   dplyr::distinct(
     filme,
     bilheteria_mundial,
@@ -310,15 +327,21 @@ pixar_completo %>%
   dplyr::mutate(bilheteria_mundial = bilheteria_mundial / 10^6) %>%
   ggplot2::ggplot(ggplot2::aes(y = bilheteria_mundial, x = nota)) +
   ggplot2::geom_point(
-    size = 6,
+    size = 4,
     fill = paleta_de_cores_2[1],
     color = paleta_de_cores_2[5],
-    pch = 21
+    pch = 21,
+    alpha = 0.7
   ) +
   ggrepel::geom_text_repel(
     ggplot2::aes(label = stringr::str_wrap(filme, 15)),
     fontface = "bold",
+    size = 3.5,
     color = paleta_de_cores[1],
+    fontface = "bold",
+    set.seed = 1972,
+    segment.linetype = 5,
+    segment.alpha = 0.5,
     box.padding = grid::unit(1, "lines")
   ) +
   ggplot2::theme_light() +
