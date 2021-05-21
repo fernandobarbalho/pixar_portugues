@@ -30,10 +30,13 @@ pixar_completo <-
 ```
 
 ```{r}
-paleta_de_cores <- c(
+paleta_de_cores <- 
+  c(
   "#3170A9", "#F0F6F0", "#F7C026",
   "#D04427", "#EAAB66", "#864F34"
 )
+
+paleta_de_cores_2 <- c("#FFB400", "#FFC740", "#C20008", "#FF020D", "#13AFEF")
 ```
 
 
@@ -51,17 +54,19 @@ Alguns dos objetivos do pacote [Dados](https://cienciadedatos.github.io/dados/) 
 
 - Colaborar com a diminuição da lacuna linguística em materiais usados no ensino de R.
 
-[Emmanuelle Nunes](https://www.linkedin.com/in/emmanuellernunes) foi convidada para co-autorar este post por ser a pessoa que realizou a tradução de todas as bases de dados do pacote [pixarfilms](https://github.com/erictleung/pixarfilms). Já a [Beatriz Milz](https://twitter.com/BeaMilz) foi convidada por ter uma atuação importante na organização da equipe para realizar as traduções das bases de dados  (além de realizar traduções em si). Ambas colaboraram na adaptação dos códigos já existentes para usar as bases de dados em português, e na adaptação de alguns gráficos. 
+[Emmanuelle Nunes](https://www.linkedin.com/in/emmanuellernunes) foi convidada para co-autorar este post por ser a pessoa que realizou a tradução de todas as bases de dados do pacote [pixarfilms](https://github.com/erictleung/pixarfilms). Já a [Beatriz Milz](https://twitter.com/BeaMilz) foi convidada por ter uma atuação importante na organização da equipe para realizar as traduções das bases de dados  (além de traduzir e revisar várias traduções também). Ambas colaboraram na adaptação dos códigos já existentes para usar as bases de dados em português, e na adaptação de alguns gráficos. 
 
 Os códigos originais (usados no post em inglês) podem ser consultados [neste link](https://gist.github.com/fernandobarbalho/72137bd127d047ea0f293b3bd87d997d), e os códigos atualizados (usados nesta versão traduzida) [estão neste link](https://github.com/fernandobarbalho/pixar_portugues/blob/main/code/pixar_pt.Rmd).
 
 
+Boa leitura!
 
 ## Pixar e as lembranças afetivas
 
 Então, você finalmente completou 18 anos. Você está se preparando para ir para a faculdade. Você pode até deixar a casa de seus pais e se mudar para outra cidade. Talvez você leve alguns objetos que o lembrem de suas lembranças de infância. Ou quem sabe, talvez você seja o pai ou a mãe deste novo ser independente. Seu coração dói pelos caminhos que seu filho ou sua filha tomarão. E talvez você esteja se percebendo no Toy Story 3. Você é Andy ou você é o pai de Andy.
 
 Quer você seja um dos pais de Andy ou do próprio Andy, é provável que nos últimos anos você tenha assistido a maioria dos filmes da Pixar. Você deve ter ficado aflito com o desespero de Encontrar Nemo, aprendeu algumas lições de Carros, ficou assustado com o futuro apocalíptico de Wall-e, e assim por diante.
+
 Aqui neste texto, a missão é fazer com que você não se sinta sozinho. Perceber que as aventuras contadas na tela do filme são emoções compartilhadas e são muito amadas pelo público e pelos críticos. Vamos ver isso através de dados e gráficos usando as cores da Toy Story, a franquia mais icônica da Pixar. Pegue seus balões de hélio e vamos juntos nesta jornada.
 
 ## Orçamento, bilheteria...e crítica
@@ -84,8 +89,11 @@ dados::pixar_avalicao_publico %>%
     )
   )) %>%
   dplyr::mutate(filme = reorder(filme, nota, FUN = sum)) %>%
-  ggplot2::ggplot(ggplot2::aes(y = filme, x = nota)) +
-  ggplot2::geom_col(fill = paleta_de_cores[1], color = paleta_de_cores[7]) +
+  ggplot2::ggplot(ggplot2::aes(y = filme, x = nota, fill = critica)) +
+  ggplot2::geom_col(show.legend = FALSE) +
+  ggplot2::scale_fill_manual(values = c(paleta_de_cores_2[1],
+                                        paleta_de_cores[1],
+                                        paleta_de_cores_2[5])) + 
   ggplot2::facet_wrap(critica ~ .) +
   ggplot2::labs(x = "Nota", y = "Filme") +
   ggplot2::theme_light() +
@@ -99,7 +107,7 @@ dados::pixar_avalicao_publico %>%
   )
 ```
 
-Como mostrado acima, *Carros*, o meu  favorito, estã no lado inferior da lista. Mas, tudo bem. Talvez os críticos não tenham entendido o filme.
+Como mostrado acima, *Carros*, o meu favorito, está no lado inferior da lista. Mas, tudo bem. Talvez os críticos não tenham entendido o filme.
 
 Toy Story (1995) foi o primeiro filme da Pixar. A foto acima mostra que ele é o melhor avaliado por Roten Tomatoes e está listado nos três primeiros pela Metacritic. O segundo lugar quando se avalia a média das notas é ocupado pelo segundo filme da Pixar, Vida de Inseto (1998). Como parece que os primeiros filmes foram às vezes melhor avaliados do que os mais recentes, talvez seja uma boa idéia ver uma cronologia dos filmes, mas agora medindo o orçamento e a bilheteria relacionada a eles.
 
@@ -114,7 +122,7 @@ pixar_completo %>%
   dplyr::mutate(valor = valor / 10^6) %>%
   ggplot2::ggplot(ggplot2::aes(x = data_lancamento, y = valor, fill = dinheiro)) +
   ggplot2::geom_col(color = paleta_de_cores[7]) +
-  ggplot2::scale_fill_manual(values = c(paleta_de_cores[5], paleta_de_cores[6])) +
+  ggplot2::scale_fill_manual(values = c(paleta_de_cores_2[1], paleta_de_cores_2[5])) +
   ggplot2::scale_x_date(
     date_breaks = "2 years",
     date_labels = "%Y",
@@ -177,9 +185,9 @@ pixar_completo %>%
   )
 ```
 
-Como você pode ver acima, *Toy Story* nos conta uma história diferente dos outros filmes quando comparamos variáveis relacionadas ao dinheiro. Ele tem um orçamento muito pequeno e também uma bilheteria que está longe do grande desempenho alcançado pelos *blockbusters* mais importantes da Pixar. Talvez o público tivesse uma visão diferente do filme quando comparado aos pontos de vista dos críticos. Não tão rápido assim. Não sou especialista, mas talvez este fenômeno possa ser explicado pelo conjunto diferente de custos que estava implícito em fazer uma animação há 25 anos e até mesmo a inflação de todo este período pode influenciar o resultado final. Convido-os a fazer esta pesquisa.
+Como você pode ver acima, *Toy Story* nos conta uma história diferente dos outros filmes quando comparamos variáveis relacionadas ao dinheiro. Ele tem um orçamento muito pequeno e também uma bilheteria que está longe do grande desempenho alcançado pelos *blockbusters* mais importantes da Pixar. Talvez o público tivesse uma visão diferente do filme quando comparado aos pontos de vista dos críticos. Não tão rápido assim. Não sou especialista, mas talvez este fenômeno possa ser explicado pelo conjunto diferente de custos que estava implícito em fazer uma animação há 25 anos e até mesmo a inflação de todo este período pode influenciar o resultado final. Convido vocês a fazer esta pesquisa.
 
-Ao olhar para a linha do tempo, é notável como *Os incríveis 2, Toy Story 3, e Toy Story 4* tiveram bons desempenhos. Esses filmes foram as principais fontes de lucro para a Pixar. Infelizmente, o mesmo não pode ser dito sobre *Soul*. Ainda não o vi, mas a maioria dos meus amigos me disse que é um grande filme. A pandemia aqui talvez tenha, de alguma forma, uma enorme influência sobre estes resultados.
+Ao olhar para a linha do tempo, é notável como *Os Incríveis 2, Toy Story 3, e Toy Story 4* tiveram bons desempenhos. Esses filmes foram as principais fontes de lucro para a Pixar. Infelizmente, o mesmo não pode ser dito sobre *Soul*. Ainda não o vi, mas a maioria dos meus amigos me disse que é um grande filme. A pandemia aqui talvez tenha, de alguma forma, uma enorme influência sobre estes resultados.
 
 Como estamos falando de orçamento e bilheteria, uma pergunta que surge é: existe alguma relação que possamos descobrir quando vemos um gráfico de dispersão destas variáveis? Esta pergunta é respondida pela figura abaixo.
 
@@ -196,8 +204,8 @@ pixar_completo %>%
   )) +
   ggplot2::geom_point(
     size = 6,
-    fill = paleta_de_cores[1],
-    color = paleta_de_cores[5],
+    fill = paleta_de_cores_2[1],
+    color = paleta_de_cores_2[5],
     pch = 21
   ) +
   ggrepel::geom_text_repel(
@@ -220,7 +228,7 @@ pixar_completo %>%
   )
 ```
 
-A regra dos quatro quadrantes está presente em nosso gráfico. Vemos alguns filmes com pequenos valores em ambas as variáveis. Estes são os casos de *Toy Story, Carros,* e *Toy Story 2*. Também podemos ver um orçamento pequeno e uma grande bilheteria em filmes como *Os incríveis* e *Procurando Nemo*. Há também representantes de um tipo de falha em termos de desempenho da Pixar: *Soul, Carros 3,* e *Os bons dinossauros*. Estes são os filmes com um grande orçamento e bilheteria pequena. E finalmente, podemos notar os grandes blockbusters representados pelos filmes *Os incríveis 2, Toy Story 4, Toy Story 3,* e *Procurando Nemo*. Nestes casos, isto é o que esperaríamos do senso comum: grandes orçamentos relacionados a grandes receitas.
+A regra dos quatro quadrantes está presente em nosso gráfico. Vemos alguns filmes com pequenos valores em ambas as variáveis. Estes são os casos de *Toy Story, Carros,* e *Toy Story 2*. Também podemos ver um orçamento pequeno e uma grande bilheteria em filmes como *Os Incríveis* e *Procurando Nemo*. Há também representantes de um tipo de falha em termos de desempenho da Pixar: *Soul, Carros 3,* e *Os bons dinossauros*. Estes são os filmes com um grande orçamento e bilheteria pequena. E finalmente, podemos notar os grandes blockbusters representados pelos filmes *Os Incríveis 2, Toy Story 4, Toy Story 3,* e *Procurando Nemo*. Nestes casos, isto é o que esperaríamos do senso comum: grandes orçamentos relacionados a grandes receitas.
 
 Outra relação que é uma boa idéia para testar é entre orçamento e média de notas do crítico. Junte-se a mim na análise.
 
@@ -253,13 +261,13 @@ pixar_completo %>%
   )) +
   ggplot2::geom_point(
     size = 6,
-    fill = paleta_de_cores[1],
-    color = paleta_de_cores[5],
+    fill = paleta_de_cores_2[1],
+    color = paleta_de_cores_2[5],
     pch = 21
   ) +
   ggrepel::geom_text_repel(
     ggplot2::aes(label = stringr::str_wrap(filme, 15)),
-    fill = paleta_de_cores[1],
+    color = paleta_de_cores[1],
     fontface = "bold",
     set.seed = 1972,
     box.padding = grid::unit(1, "lines")
@@ -277,8 +285,8 @@ pixar_completo %>%
   )
 ```
 
-No gráfico acima, notamos a inexistência do quadrante de orçamentos baixos com baixas classificações. O primeiro quadrante a ser analisado é aquele associado a filmes de baixo orçamento com altas classificações da crítica. Neste caso, *Toy Story* é, de longe, o melhor representante. Esta descoberta muda completamente a imagem deste filme quando o comparamos com o gráfico analisado anteriormente. Vemos, por outro lado, alguns filmes com um grande orçamento e com notas fracas. Destaque para *Carros* e *Carros 3*.Finalmente, é fácil perceber a grande concentração no que se espera do senso comum: grandes orçamentos com altas médias de notas. Aqui os destaques são *Toy Story 3* e *Toy Story 4*.
-Note que *Os incríveis 2*, um campeão de bilheteria como vimos no gráfico anterior, está no grupo do senso comum. Acontece, entretanto, que ele tem uma média de notas que não corresponde ao sucesso do público que o filme teve. Isto levanta outra questão: o sucesso do público se relaciona com o sucesso com os críticos? Recarregue seus balões com hélio e vamos continuar a viagem parando no próximo gráfico.
+No gráfico acima, notamos a inexistência do quadrante de orçamentos baixos com baixas classificações. O primeiro quadrante a ser analisado é aquele associado a filmes de baixo orçamento com altas classificações da crítica. Neste caso, *Toy Story* é, de longe, o melhor representante. Esta descoberta muda completamente a imagem deste filme quando o comparamos com o gráfico analisado anteriormente. Vemos, por outro lado, alguns filmes com um grande orçamento e com notas fracas. Destaque para *Carros* e *Carros 3*. Finalmente, é fácil perceber a grande concentração no que se espera do senso comum: grandes orçamentos com altas médias de notas. Aqui os destaques são *Toy Story 3* e *Toy Story 4*.
+Note que *Os Incríveis 2*, um campeão de bilheteria como vimos no gráfico anterior, está no grupo do senso comum. Acontece, entretanto, que ele tem uma média de notas que não corresponde ao sucesso do público que o filme teve. Isto levanta outra questão: o sucesso do público se relaciona com o sucesso com os críticos? Recarregue seus balões com hélio e vamos continuar a viagem parando no próximo gráfico.
 
 ```{r}
 pixar_completo %>%
@@ -303,8 +311,8 @@ pixar_completo %>%
   ggplot2::ggplot(ggplot2::aes(y = bilheteria_mundial, x = nota)) +
   ggplot2::geom_point(
     size = 6,
-    fill = paleta_de_cores[1],
-    color = paleta_de_cores[5],
+    fill = paleta_de_cores_2[1],
+    color = paleta_de_cores_2[5],
     pch = 21
   ) +
   ggrepel::geom_text_repel(
