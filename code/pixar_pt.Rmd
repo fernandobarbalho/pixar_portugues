@@ -49,6 +49,8 @@ paleta_de_cores <-
 paleta_de_cores_2 <- c("#FFB400", "#FFC740", "#C20008", "#FF020D", "#13AFEF")
 ```
 
+![](mikael-frivold-ATQpW1k6OQU-unsplash (1).jpg)
+<div align="center"> <font size="1"> Foto por Mikael Frivold em [Unsplash](https://unsplash.com/photos/ATQpW1k6OQU) </font></div>
 
 ## Introdução
 
@@ -159,6 +161,7 @@ pixar_completo %>%
     y = 450,
     label = "Toy Story",
     color = paleta_de_cores[1],
+    hjust = 0.3,
     fontface = "bold"
   ) +
   ggplot2::annotate(
@@ -183,13 +186,13 @@ pixar_completo %>%
     y = 1310,
     label = "Toy Story 4",
     color = paleta_de_cores[1],
-    hjust = 0.2,
+    hjust = 0.23,
     fontface = "bold"
   ) +
   ggplot2::annotate(
     "text",
     x = as.Date("2020-12-25"),
-    y = 300,
+    y = 350,
     label = "Soul",
     color = paleta_de_cores[1],
     hjust = 0.2,
@@ -248,7 +251,7 @@ pixar_completo_nome_curto %>%
 
 A regra dos quatro quadrantes está presente em nosso gráfico. Vemos alguns filmes com pequenos valores em ambas as variáveis. Estes são os casos de *Toy Story, Carros,* e *Toy Story 2*. Também podemos ver um orçamento pequeno e uma grande bilheteria em filmes como *Os Incríveis* e *Procurando Nemo*. Há também representantes de um tipo de falha em termos de desempenho da Pixar: *Soul, Carros 3,* e *Os bons dinossauros*. Estes são os filmes com um grande orçamento e bilheteria pequena. E finalmente, podemos notar os grandes blockbusters representados pelos filmes *Os Incríveis 2, Toy Story 4, Toy Story 3,* e *Procurando Nemo*. Nestes casos, isto é o que esperaríamos do senso comum: grandes orçamentos relacionados a grandes receitas.
 
-Outra relação que é uma boa idéia para testar é entre orçamento e média de notas do crítico. Junte-se a mim na análise.
+Outra relação que é uma boa idéia para testar é entre orçamento e média de notas do crítico. Junte-se a nós na análise.
 
 ```{r}
 pixar_completo_nome_curto %>%
